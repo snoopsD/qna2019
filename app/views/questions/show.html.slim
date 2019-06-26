@@ -1,2 +1,12 @@
 h1= question.title
 p= question.body
+
+hr 
+ 
+-if question.answers.present?
+  p 
+  -question.answers.each do |answer|
+    =answer.body
+    br
+
+p= link_to 'Create answer', new_question_answer_path(question)
