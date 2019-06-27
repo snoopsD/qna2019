@@ -12,7 +12,7 @@ feature 'User can see question with answers', %q{
   scenario 'Any user can see question with answers' do
     visit questions_path
     click_on 'Show'
-    save_and_open_page
+    
     expect(page).to have_content("QuestionTitle")
     expect(page).to have_content("AnswerBody", count: 2)
   end
