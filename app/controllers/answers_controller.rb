@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!
 
   def create  
     @answer = question.answers.new(answer_params)
@@ -7,24 +7,23 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question_path(question), notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
     end
   end
 
   def destroy
-    question = answer.question
     if current_user.author?(answer)
       answer.destroy
-      redirect_to question, notice: "Answer successfully delete"
+      redirect_to answer.question, notice: "Answer successfully delete"
     else
-      redirect_to question, notice: 'You are not the author answer.'
+      redirect_to answer.question, notice: 'You are not the author answer.'
     end
   end
 
   private
 
   def question
-    @question = Question.find(params[:question_id])
+    @question = Question.find(params[:question_id]) 
   end
 
   def answer

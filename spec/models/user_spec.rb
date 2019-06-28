@@ -15,9 +15,9 @@ RSpec.describe User, type: :model do
     let(:question) { create(:question, user: user) }
     let(:answer) { create(:answer, question: question, user: user) }
 
-    it 'check user id who created question/answer with current_user' do
-      expect(question.user.id).to eq user.id
-      expect(answer.user.id).to eq user.id
+    it 'check user is author of question/answer' do
+      expect(user).to be_author(question)
+      expect(user).to be_author(answer)
     end
   end
 end

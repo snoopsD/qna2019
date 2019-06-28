@@ -47,4 +47,6 @@ ActiveRecord::Schema.define(version: 2019_06_27_071928) do
   end
 
   add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
+  add_foreign_key "questions", "users"
 end

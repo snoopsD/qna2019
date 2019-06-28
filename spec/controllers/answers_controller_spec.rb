@@ -14,6 +14,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
       end
 
+      it 'created answer belongs to current_user' do
+        post :create, params: { question_id: question, answer: attributes_for(:answer) }
+        expect(assigns(:answer).user).to eq user
+      end
+
       it 'redirects to show view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) } 
         expect(response).to redirect_to question
@@ -29,7 +34,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template("questions/show")
       end
 
     end

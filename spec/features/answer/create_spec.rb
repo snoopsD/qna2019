@@ -17,10 +17,9 @@ feature 'User can create answer', %q{
       visit questions_path
       
       click_on 'Show' 
-      click_on 'Create answer'
     end
 
-    scenario 'Create an answer' do
+    scenario 'create an answer' do
       fill_in 'Body', with: 'text answer'  
       click_on 'Post answer'
 
@@ -28,7 +27,7 @@ feature 'User can create answer', %q{
       expect(page).to have_content 'text answer'
     end
 
-    scenario 'Create answer with errors' do
+    scenario 'create answer with errors' do
       click_on 'Post answer'
 
       expect(page).to have_content "Body can't be blank"
@@ -41,8 +40,8 @@ feature 'User can create answer', %q{
     scenario 'tries to create answer' do
       visit questions_path
       
-      click_on 'Show'      
-      click_on 'Create answer'
+      click_on 'Show'  
+      click_on 'Post answer'
       
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end

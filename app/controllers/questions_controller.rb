@@ -8,6 +8,10 @@ class QuestionsController < ApplicationController
   def edit
   end
 
+  def show
+    @answer = question.answers.new
+  end  
+
   def create
     @question = current_user.questions.new(question_params)
 

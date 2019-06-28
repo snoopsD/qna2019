@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can delete question', %q{
+feature 'User can delete answer', %q{
   In order to delete 
   As an user
-  I'd like to be delete own question
+  I'd like to be delete own answer
 } do
 
   given(:user) { create(:user) }
@@ -16,8 +16,11 @@ feature 'User can delete question', %q{
 
     visit questions_path
     click_on 'Show'
+    expect(page).to have_content 'AnswerBody'
+    
     click_on 'Delete answer'
 
+    expect(page).to have_no_content 'AnswerBody'
     expect(page).to have_content 'Answer successfully delete'
   end
 
@@ -26,16 +29,15 @@ feature 'User can delete question', %q{
 
     visit questions_path
     click_on 'Show'
-    click_on 'Delete answer'
-    expect(page).to have_content "You are not the author answer."
+ 
+    expect(page).to_not have_link("Delete answer")
   end
 
   scenario 'Unauthenticated user tries delete answer' do
     visit questions_path
     click_on 'Show'
-    click_on 'Delete answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_link("Delete answer")
   end
 
 end
