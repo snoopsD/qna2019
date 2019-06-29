@@ -10,14 +10,18 @@ RSpec.describe User, type: :model do
 
   let(:user) { create(:user) }
 
-  describe 'author of question/answer' do
+  describe 'metod author' do
     let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
     let(:question) { create(:question, user: user) }
-    let(:answer) { create(:answer, question: question, user: user) }
 
-    it 'check user is author of question/answer' do
+    it 'check user is author of question' do
       expect(user).to be_author(question)
-      expect(user).to be_author(answer)
     end
+
+    it 'check user is not author of question' do
+      expect(other_user).not_to be_author(question)
+    end
+
   end
 end
