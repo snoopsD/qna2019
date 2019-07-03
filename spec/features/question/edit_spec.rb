@@ -41,9 +41,8 @@ feature 'User can edit own question', %q{
       within '.question' do
         fill_in 'Body', with: ''
         click_on 'Save'
-
-        expect(page).to have_content "Body can't be blank"
-      end  
+      end 
+      expect(page).to have_content "Body can't be blank"
     end
 
     scenario "tries to edit other user's question" do
