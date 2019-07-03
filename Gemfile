@@ -43,6 +43,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails'
   gem 'slim-rails'
+  gem 'jquery-rails'
 end
 
 group :development do
@@ -57,7 +58,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 3.0'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'launchy'

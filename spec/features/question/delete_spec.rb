@@ -20,21 +20,20 @@ feature 'User can delete question', %q{
     expect(page).to have_content 'Question successfully delete'
   end
 
-  scenario 'Authenticated userdelete not own question' do
+  scenario 'Authenticated user delete not own question' do
     sign_in(other_user)
 
     visit questions_path
     click_on 'Show'
-    click_on 'Delete question'
-    expect(page).to have_content "You are not the author question."
+
+    expect(page).to_not have_link "Delete question"
   end
 
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
     click_on 'Show'
-    click_on 'Delete question'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_link "Delete question"
   end
 
 end
