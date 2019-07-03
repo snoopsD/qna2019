@@ -106,9 +106,22 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :update
       end
     end
+  end
 
+  describe 'PATCH #best' do
+    before { login(user) }
+    let(:answer) { create(:answer, question: question, user: user) }
+    
+    it 'choose answer to be best' do
+      patch :best, params: { question_id: question, id: answer }, format: :js
+      answer.reload
+      expect(answer).to be_best
+    end
 
-
+    it 'render update template' do
+      patch :best, params: { question_id: question, id: answer, answer: attributes_for(:answer) }, format: :js
+      expect(response).to render_template :best
+    end
   end
 
 end

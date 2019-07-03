@@ -1,14 +1,14 @@
+.question-errors
+  = render 'shared/errors', resource: @question
 .question 
-  .question-errors
-    = render 'shared/errors', resource: @question
   = render 'question'
 
 hr 
 
+.answer-errors
+  = render 'shared/errors', resource: @answer 
+h2 Answers
 .answers
-  .answer-errors
-    = render 'shared/errors', resource: @answer 
-  h2 Answers
   p= render question.answers
 
 hr

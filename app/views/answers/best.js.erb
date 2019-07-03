@@ -1,0 +1,8 @@
+$('.flash').html('<%= flash[:notice] %>');
+$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>'); 
+
+<% unless @answer.errors.present? %>
+  $("#answer-<%= answer.id %>").remove();
+  $('.answers').prepend('<%= j render @answer %>');
+<% end %>  
+
