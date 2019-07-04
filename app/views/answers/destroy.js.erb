@@ -1,0 +1,7 @@
+$('.flash').html('<%= flash[:notice] %>');
+
+<% unless @answer.errors.present? %>
+  $("#answer-<%= answer.id %>").remove();
+<% end %>  
+
+

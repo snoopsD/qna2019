@@ -3,21 +3,24 @@ class AnswersController < ApplicationController
 
   def create  
     @answer = question.answers.new(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      redirect_to question_path(question), notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+    @answer.user = current_user    
+    flash[:notice] = 'Your answer successfully created.' if @answer.save
+  end
+
+  def update
+    answer.update(answer_params) if current_user.author?(answer)
+    @question = answer.question
   end
 
   def destroy
     if current_user.author?(answer)
       answer.destroy
-      redirect_to answer.question, notice: "Answer successfully delete"
-    else
-      redirect_to answer.question, notice: 'You are not the author answer.'
+      flash[:notice] = "Answer successfully delete"
     end
+  end
+
+  def best
+    answer.check_best if current_user.author?(answer)      
   end
 
   private

@@ -1,17 +1,15 @@
-h1= question.title
-p= question.body
-= link_to 'Delete question', question_path(question), method: :delete, data: { confirm: 'Are you sure?' }
+.question-errors
+  = render 'shared/errors', resource: @question
+.question 
+  = render 'question'
 
 hr 
 
+.answer-errors
+  = render 'shared/errors', resource: @answer 
 h2 Answers
-table
-  thead
-    tr
-      th Author
-      th Body
-  tbody
-    = render question.answers
+.answers
+  p= render question.answers
 
 hr
 
