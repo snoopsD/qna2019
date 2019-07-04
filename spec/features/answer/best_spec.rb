@@ -59,8 +59,8 @@ feature 'User can check best answer', %q{
           click_on 'Best'
         end
 
+        expect(current_path).to eq question_path(question)
         within ".best-answer" do
-          expect(current_path).to eq question_path(question)
           expect(page).to have_content "#{answer.first.body}"
           expect(page).to_not have_content (best_answer.body)
         end
