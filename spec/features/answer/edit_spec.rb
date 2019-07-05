@@ -18,13 +18,16 @@ feature 'User can edit own answer', %q{
   end
 
 
-  describe 'Authenticated user' do
-    scenario 'edits his answer', js: true  do
+  describe 'Authenticated user', js: true do
+    background do
       sign_in(user)
-      visit question_path(question)
 
-      click_on 'Edit'
+      visit question_path(question)
+    end 
+
+    scenario 'edits his answer' do
       within '.answers' do
+        click_on 'Edit'
         fill_in 'Your answer', with: 'edited answer'
         click_on 'Save'
 
@@ -34,19 +37,28 @@ feature 'User can edit own answer', %q{
       end
     end
 
-    scenario 'edits his answer with errors', js: true do
-      sign_in(user)
-      visit question_path(question)
-
-      click_on 'Edit'
+    scenario 'edit an answer with attached file' do
       within '.answers' do
+        click_on 'Edit'
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+      end  
+      
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'edits his answer with errors' do
+      within '.answers' do
+        click_on 'Edit'
         fill_in 'Your answer', with: ''
         click_on 'Save'
       end  
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario "tries to edit other user's question", js: true do
+    scenario "tries to edit other user's question" do
+      sign_out
       sign_in(other_user)
       visit question_path(question)
 

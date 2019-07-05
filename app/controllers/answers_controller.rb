@@ -23,6 +23,13 @@ class AnswersController < ApplicationController
     answer.check_best if current_user.author?(answer)      
   end
 
+  def remove_attachments
+    if current_user.author?(answer)
+      answer.files.find(params[:file]).purge
+      redirect_to question_path(answer.question)
+    end  
+  end
+
   private
 
   def question
@@ -30,13 +37,13 @@ class AnswersController < ApplicationController
   end
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : Answer.new
+    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new
   end
 
   helper_method :question, :answer
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end  
 
 end

@@ -124,4 +124,20 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'DELETE #remove_attachments' do
+    before { login(user) }
+    let!(:file) { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb") }
+    let(:answer) { create(:answer, question: question, user: user, files: [file]) }
+
+    it 'remove attachments to the answer' do
+      expect { delete :remove_attachments, params: { id: answer, file: answer.files.first }}.to change(answer.files.attachments, :count).by(-1)
+    end
+
+    it 'redirects to question' do
+      delete :remove_attachments, params: { id: answer, file: answer.files.first }
+      expect(response).to redirect_to question_path(question)
+    end
+
+  end
+
 end

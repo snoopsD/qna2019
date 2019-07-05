@@ -32,6 +32,13 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def remove_attachments
+    if current_user.author?(question)
+      question.files.find(params[:file]).purge
+      redirect_to question
+    end  
+  end
+
   private
   
   def question
