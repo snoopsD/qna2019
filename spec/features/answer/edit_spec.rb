@@ -17,7 +17,6 @@ feature 'User can edit own answer', %q{
     expect(page).to_not have_link 'Edit'
   end
 
-
   describe 'Authenticated user', js: true do
     background do
       sign_in(user)
@@ -37,15 +36,37 @@ feature 'User can edit own answer', %q{
       end
     end
 
-    scenario 'edit an answer with attached file' do
-      within '.answers' do
-        click_on 'Edit'
-        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
-        click_on 'Save'
+    context 'edit a answer with attached file' do
+      background do
+        within '.answers' do
+          click_on 'Edit'
+          attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
+          click_on 'Save'
+        end  
+      end
+
+      scenario 'add multiple files' do       
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+
+      scenario 'delete attached file in answer' do
+        within  first('.answer-file') do 
+          click_on 'Delete'
+        end
+
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+
+      scenario "not author can't see delete link file" do
+        sign_out
+        sign_in(other_user)
+        visit question_path(question)
+    
+        within  first('.answer-file') do 
+          expect(page).to_not have_link 'delete'
+        end  
       end  
-      
-      expect(page).to have_link 'rails_helper.rb'
-      expect(page).to have_link 'spec_helper.rb'
     end
 
     scenario 'edits his answer with errors' do
