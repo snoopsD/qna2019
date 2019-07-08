@@ -36,7 +36,7 @@ feature 'User can edit own question', %q{
         expect(page).to_not have_selector 'textarea'
       end
     end
-    
+  
     context 'edit a question with attached file' do
       background do
         within '.question' do

@@ -18,8 +18,8 @@ p=  @question.body
           = f.submit 'Save'
 - if @question.files.attached? 
   - @question.files.each do |file|
-    .question-file
-      p= link_to 'Delete', remove_attachments_question_path(question, file: file.id),  method: :delete
+    .question-file id="file-#{file.id}"
+      p= link_to 'Delete', attachment_path(file), method: :delete, remote: true
       p= link_to file.filename.to_s, url_for(file)
 
 

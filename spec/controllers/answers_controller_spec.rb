@@ -61,7 +61,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(other_user) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to_not change(Answer, :count), format: :js
+        expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 're-render to answer' do
@@ -122,22 +122,6 @@ RSpec.describe AnswersController, type: :controller do
       patch :best, params: { question_id: question, id: answer, answer: attributes_for(:answer) }, format: :js
       expect(response).to render_template :best
     end
-  end
-
-  describe 'DELETE #remove_attachments' do
-    before { login(user) }
-    let!(:file) { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb") }
-    let(:answer) { create(:answer, question: question, user: user, files: [file]) }
-
-    it 'remove attachments to the answer' do
-      expect { delete :remove_attachments, params: { id: answer, file: answer.files.first }}.to change(answer.files.attachments, :count).by(-1)
-    end
-
-    it 'redirects to question' do
-      delete :remove_attachments, params: { id: answer, file: answer.files.first }
-      expect(response).to redirect_to question_path(question)
-    end
-
   end
 
 end

@@ -51,7 +51,8 @@ feature 'User can edit own answer', %q{
       end
 
       scenario 'delete attached file in answer' do
-        within  first('.answer-file') do 
+       
+        within first('.answer-file') do 
           click_on 'Delete'
         end
 
@@ -63,7 +64,7 @@ feature 'User can edit own answer', %q{
         sign_in(other_user)
         visit question_path(question)
     
-        within  first('.answer-file') do 
+        within first('.answer-file')  do 
           expect(page).to_not have_link 'delete'
         end  
       end  

@@ -21,8 +21,8 @@
 
     - if answer.files.attached? 
       - answer.files.each do |file|
-        .answer-file
-          p= link_to 'Delete', remove_attachments_answer_path(answer, file: file.id),  method: :delete
+        .answer-file id="file-#{file.id}"
+          p= link_to 'Delete', attachment_path(file), method: :delete, remote: true
           p= link_to file.filename.to_s, url_for(file) 
 
 
