@@ -61,7 +61,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(other_user) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to_not change(Answer, :count), format: :js
+        expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 're-render to answer' do

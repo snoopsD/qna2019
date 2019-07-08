@@ -1,6 +1,11 @@
 .flash
 = form_with model: [question, @answer], class: 'new-answer' do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Post answer'
+  p
+    = f.label :body
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true
+  p  
+    = f.submit 'Post answer'
 

@@ -32,16 +32,23 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def remove_attachments
+    if current_user.author?(question)
+      question.files.find(params[:file]).purge
+      redirect_to question
+    end  
+  end
+
   private
   
   def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
+    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 
 end

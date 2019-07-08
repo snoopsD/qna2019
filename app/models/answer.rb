@@ -2,6 +2,8 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
 
+  has_many_attached :files
+
   validates :body, presence: true
 
   default_scope {order(best: :desc)}
@@ -12,4 +14,5 @@ class Answer < ApplicationRecord
       update!(best: true)
     end  
   end
+  
 end
