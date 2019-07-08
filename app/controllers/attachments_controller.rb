@@ -8,7 +8,7 @@ class AttachmentsController < ApplicationController
   private 
 
   def attachment
-    @attachment = ActiveStorage::Attachment.find(params[:id])
+    @attachment ||= ActiveStorage::Attachment.find(params[:id])
   end
 
   helper_method :attachment
