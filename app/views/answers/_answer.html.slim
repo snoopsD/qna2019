@@ -7,6 +7,10 @@
       = link_to 'Delete answer', answer, remote: true, method: :delete
       | |
       = link_to 'Best', best_answer_path(answer), method: :patch, remote: true
+      .links
+        ul
+          - answer.links.each do |link|
+            li= link_to link.name, link.url
       br
       .answer-edit  
         = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|

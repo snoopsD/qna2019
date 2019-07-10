@@ -2,6 +2,9 @@
   = render 'shared/errors', resource: @question
 .question 
   = render 'question'
+.links
+  - question.links.each do |link|
+    li= link_to link.name, link.url
 
 hr 
 
