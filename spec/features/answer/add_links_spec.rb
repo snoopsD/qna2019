@@ -8,23 +8,54 @@ feature 'User can add links to asnwer', %q{
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/snoopsD/bf00aa93c529956c77a6d7b320aa0175' }
+  given(:github_url)  { 'https://github.com/' }
 
-  scenario 'User adds link when give an answer', js: true do
-    sign_in(user)
+  describe 'Authenticated user', js: true do
 
-    visit question_path(question)    
+    background do
+      sign_in(user)
+      visit question_path(question)
 
-    fill_in 'Body', with: 'text answer'  
+      fill_in 'Body', with: 'text for answerS'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
-
-    click_on 'Post answer'
-
-    within '.answers' do 
-      expect(page).to have_link 'My gist', href: gist_url
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
     end
-  end
 
+    scenario 'adds link when send answer' do 
+      click_on 'Post answer'
+
+      expect(page).to have_content('test1 test2 test3')
+    end
+
+    scenario 'add links' do
+      click_on 'add link'
+
+      within all('.nested-fields')[1] do
+        fill_in 'Link name', with: 'github'
+        fill_in 'Url', with: github_url
+      end
+
+      click_on 'Post answer'
+
+      expect(page).to have_content('test1 test2 test3')
+      expect(page).to have_link 'github', href: github_url
+    end
+
+    scenario 'add invalid link' do
+      click_on 'add link'
+      
+      within all('.nested-fields')[1] do
+        fill_in 'Link name', with: 'github'
+        fill_in 'Url', with: 'something wrong'
+      end
+
+      click_on 'Post answer'
+  
+      expect(page).to have_content('Links url provided invalid')
+    end
+
+
+  end
 
 end

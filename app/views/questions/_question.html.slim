@@ -1,25 +1,35 @@
-h3= @question.title
-p=  @question.body
+h3= question.title
+p=  question.body
+
+.links-question
+  - if question.links.exists?
+    = render 'shared/link', links: question.links
+
+.attachments-question
+- if question.files.attached? 
+  = render 'shared/attachments', resource: question
+
 - if current_user&.author?(question)
   = link_to 'Edit |', '#', class: 'edit-question-link', data: { question_id: question.id } 
   = link_to 'Delete question', question, method: :delete
   br
+
   .question-edit  
       = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-        = f.label :title
-        = f.text_field :title
+        p
+          = f.label :title
+          = f.text_field :title
         p
           = f.label :body
           = f.text_area :body
         p  
           = f.label :files
           = f.file_field :files, multiple: true
+        = fields_for :links do |link|
+          = render 'shared/link_form', f: f
         p
           = f.submit 'Save'
-- if @question.files.attached? 
-  - @question.files.each do |file|
-    .question-file id="file-#{file.id}"
-      p= link_to 'Delete', attachment_path(file), method: :delete, remote: true
-      p= link_to file.filename.to_s, url_for(file)
+
+
 
 

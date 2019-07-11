@@ -1,12 +1,7 @@
 .question-errors
-  = render 'shared/errors', resource: @question
+  = render 'shared/errors', resource: question
 .question 
   = render 'question'
-.links
-  - question.links.each do |link|
-    li= link_to link.name, link.url
-
-hr 
 
 .answer-errors
   = render 'shared/errors', resource: @answer 

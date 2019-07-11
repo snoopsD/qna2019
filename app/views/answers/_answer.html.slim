@@ -7,11 +7,7 @@
       = link_to 'Delete answer', answer, remote: true, method: :delete
       | |
       = link_to 'Best', best_answer_path(answer), method: :patch, remote: true
-      .links
-        ul
-          - answer.links.each do |link|
-            li= link_to link.name, link.url
-      br
+
       .answer-edit  
         = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
           p
@@ -19,15 +15,23 @@
             = f.text_area :body
           p
             = f.label :files
-            = f.file_field :files, multiple: true, direct_upload: true  
+            = f.file_field :files, multiple: true, direct_upload: true 
+
+          = fields_for :links do |link|
+            = render 'shared/link_form', f: f
           p  
             = f.submit 'Save'
 
-    - if answer.files.attached? 
-      - answer.files.each do |file|
-        .answer-file id="file-#{file.id}"
-          p= link_to 'Delete', attachment_path(file), method: :delete, remote: true
-          p= link_to file.filename.to_s, url_for(file) 
+    .links-answer
+      - if answer.links.exists?
+         = render 'shared/link', links: answer.links
+
+    .attachments-answer      
+      - if answer.files.attached? 
+        = render 'shared/attachments', resource: answer      
+      br
+      
+
 
 
 

@@ -38,6 +38,8 @@ gem 'devise'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'aws-sdk-s3'
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'cocoon'
+gem "octokit", "~> 4.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
