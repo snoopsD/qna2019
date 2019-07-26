@@ -8,6 +8,12 @@
   p  
     = f.label :body
     = f.text_area :body
+  p
+    = f.label :badge_title
+    = f.text_field :badge_title
+  p
+    = f.label :badge_avatar
+    = f.file_field :badge_avatar, direct_upload: true
   p  
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
