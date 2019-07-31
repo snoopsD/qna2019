@@ -1,3 +1,9 @@
 class Badge < ApplicationRecord
-  belongs_to :question
+  has_one_attached :image
+
+  belongs_to :question   
+
+  validates :name, presence: true
 end
+
+  
