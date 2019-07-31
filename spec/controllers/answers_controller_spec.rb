@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
   let(:other_user) { create(:user) }
 
   describe 'POST #create' do
@@ -110,10 +110,10 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #best' do
     before { login(user) }
-    let(:answer) { create(:answer, question: question, user: user) }
+    let(:answer) { create(:answer, question: question, user: other_user) }
     
     it 'choose answer to be best' do
-      patch :best, params: { question_id: question, id: answer }, format: :js
+      patch :best, params: { question_id: question, id: answer, user: user }, format: :js
       answer.reload
       expect(answer).to be_best
     end

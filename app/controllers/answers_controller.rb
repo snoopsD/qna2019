@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
   end
 
   def best
-    answer.check_best if current_user.author?(answer)      
+    answer.check_best if current_user.author?(answer.question)
   end
 
   private
