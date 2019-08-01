@@ -10,6 +10,7 @@ feature 'User can check best answer', %q{
   given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create_list(:answer, 2, question: question, user: other_user) }
+  given!(:badge) { create(:badge, question: question, answer: answer[0]) }  
 
   describe 'Authenticated user', js: true do
 
@@ -43,6 +44,23 @@ feature 'User can check best answer', %q{
         expect(page).to have_content "#{answer.last.body}"
         expect(page).to_not have_content "#{answer.first.body}"
       end
+    end
+
+    scenario 'user get badge for best answer' do
+      sign_in(user)
+      visit question_path(question)
+
+      within "#answer-#{answer.last.id}" do
+        click_on 'Best'
+      end
+
+      sign_out
+      sign_in(other_user)
+      visit user_badges_path(other_user)
+
+      expect(page).to have_content question.title
+      expect(page).to have_content badge.name
+      expect(page).to have_css "img[src*='badge.png']"
     end
 
     scenario 'see the best answer in top on list' do
