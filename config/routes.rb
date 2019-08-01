@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
   devise_for :users
+
+  resources :users do
+    resources :badges, only: %i[index]
+  end
   
   resources :questions, shallow: true do
     resources :answers do
