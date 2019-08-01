@@ -6,6 +6,7 @@ feature 'User can edit links to question', %q{
   I'd like to be able to edit links
 } do
   given(:user) { create(:user) }
+  given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:link) { create(:link, linkable: question) }
 
@@ -28,5 +29,25 @@ feature 'User can edit links to question', %q{
 
     end
   end
+
+  scenario 'Not author cant see edit  link' do
+    sign_in(other_user)
+    visit question_path(question)
+    
+    within '.question' do
+      expect(page).to_not have_link 'Edit'
+    end 
+  end
+
+  describe 'Unauthenticated user', js: true do
+    scenario 'can show edit link' do 
+      visit question_path(question)
+
+      within '.question' do
+        expect(page).to_not have_link 'Edit'
+      end
+
+    end
+  end  
    
 end

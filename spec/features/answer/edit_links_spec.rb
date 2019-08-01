@@ -7,13 +7,14 @@ feature 'User can edit links to answer', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
   given!(:link) { create(:link, linkable: answer) }
 
   describe 'Authenticated user', js: true do
     
-    scenario 'can edit link' do
+    scenario 'Author can edit link' do
       sign_in(user)
       visit question_path(question)
 
@@ -29,6 +30,26 @@ feature 'User can edit links to answer', %q{
       expect(page).to have_link 'Github', href: 'https://github.com'
 
     end
+
+    scenario 'Not author cant see edit  link' do
+      sign_in(other_user)
+      visit question_path(question)
+      
+      within '.answers' do
+        expect(page).to_not have_link 'Edit'
+      end 
+    end
   end
+
+  describe 'Unauthenticated user', js: true do
+    scenario 'can show edit link' do 
+      visit question_path(question)
+
+      within '.answers' do
+        expect(page).to_not have_link 'Edit'
+      end
+
+    end
+  end    
    
 end
