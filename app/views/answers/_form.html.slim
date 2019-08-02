@@ -6,6 +6,8 @@
   p
     = f.label :files
     = f.file_field :files, multiple: true
+  p
+    = render 'shared/link_form', f: f
   p  
     = f.submit 'Post answer'
 

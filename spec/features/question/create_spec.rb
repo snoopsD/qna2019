@@ -45,6 +45,29 @@ feature 'User can create question', %q{
       expect(page).to have_link 'spec_helper.rb'
     end
 
+    scenario 'can create badge for best answer' do
+      fill_in 'Title', with: 'Text question'
+      fill_in 'Body', with: 'text text text'
+
+      fill_in 'Badge title', with: 'For the best answer'
+      attach_file 'Image', '/home/blasta/badge.png'
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Your question successfully created.'
+    end
+
+    scenario 'cant create badge for best answer with empty title' do
+      fill_in 'Title', with: 'Text question'
+      fill_in 'Body', with: 'text text text'
+
+      attach_file 'Image', '/home/blasta/badge.png'
+
+      click_on 'Ask'
+
+      expect(page).to have_content "Badge name can't be blank"
+    end
+
   end
 
   scenario 'Unauthenticated user tries to ask a question' do

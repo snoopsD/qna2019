@@ -10,8 +10,7 @@ feature 'User can see question with answers', %q{
   given!(:answers) { create_list(:answer, 2, question: question) }
 
   scenario 'Any user can see question with answers' do
-    visit questions_path
-    click_on 'Show'
+    visit question_path(question)
     
     expect(page).to have_content("QuestionTitle")
     expect(page).to have_content("AnswerBody", count: 2)

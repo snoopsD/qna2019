@@ -62,8 +62,8 @@ feature 'User can edit own answer', %q{
       scenario "not author can't see delete link file" do
         sign_out
         sign_in(other_user)
-        visit question_path(question)
-    
+        visit question_path(question)  
+
         within first('.answer-file')  do 
           expect(page).to_not have_link 'delete'
         end  

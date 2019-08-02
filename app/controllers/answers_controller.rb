@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
   end
 
   def best
-    answer.check_best if current_user.author?(answer)      
+    answer.check_best if current_user.author?(answer.question)
   end
 
   private
@@ -36,7 +36,7 @@ class AnswersController < ApplicationController
   helper_method :question, :answer
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: [:id, :name, :url,  :_destroy])
   end  
 
 end

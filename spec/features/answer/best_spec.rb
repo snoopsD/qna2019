@@ -7,29 +7,34 @@ feature 'User can check best answer', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given!(:answer) { create_list(:answer, 2, question: question, user: user) }
+  given(:other_user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answer) { create_list(:answer, 2, question: question, user: other_user) }
+  given!(:badge) { create(:badge, question: question, answer: answer[0]) }  
 
   describe 'Authenticated user', js: true do
-    background do
-      sign_in(user)
 
+    scenario 'not author question cant see check best answer' do
+      sign_in(other_user)
       visit question_path(question)
-    end
 
-    scenario 'not author answer cant see check best answer' do
       expect(page).to_not have_link('best')
     end
 
-    scenario 'can sees to check best answer' do
-      within '.answers' do
-        
+    scenario 'author can sees to check best answer' do
+      sign_in(user)
+      visit question_path(question)
+
+      within '.answers' do        
         expect(page).to have_link('Best').twice
 
       end
     end  
 
-    scenario 'author answer can check best answer' do
+    scenario 'author question can check best answer' do
+      sign_in(user)
+      visit question_path(question)
+
       within "#answer-#{answer.last.id}" do
         click_on 'Best'
       end
@@ -41,7 +46,27 @@ feature 'User can check best answer', %q{
       end
     end
 
+    scenario 'user get badge for best answer' do
+      sign_in(user)
+      visit question_path(question)
+
+      within "#answer-#{answer.last.id}" do
+        click_on 'Best'
+      end
+
+      sign_out
+      sign_in(other_user)
+      visit user_badges_path(other_user)
+
+      expect(page).to have_content question.title
+      expect(page).to have_content badge.name
+      expect(page).to have_css "img[src*='badge.png']"
+    end
+
     scenario 'see the best answer in top on list' do
+      sign_in(user)
+      visit question_path(question)
+
       within "#answer-#{answer.last.id}" do
         click_on 'Best'
       end
@@ -54,14 +79,17 @@ feature 'User can check best answer', %q{
     context 'can choose another answer for best check' do
       given!(:best_answer) { create(:answer, question: question, user: user, best: true) }
 
-      scenario 'check another best answer'do        
-        within "#answer-#{answer.first.id}" do
+      scenario 'check another best answer'do  
+        sign_in(user)
+        visit question_path(question)
+
+        within "#answer-#{answer.last.id}" do
           click_on 'Best'
         end
-
+   
         expect(current_path).to eq question_path(question)
         within ".best-answer" do
-          expect(page).to have_content "#{answer.first.body}"
+          expect(page).to have_content "#{answer.last.body}"
           expect(page).to_not have_content (best_answer.body)
         end
       end
