@@ -2,12 +2,19 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  concern :votable do
+    member do
+      post :voteup
+      post :votedown
+    end
+  end
+
   resources :users do
     resources :badges, only: %i[index]
   end
   
-  resources :questions, shallow: true do
-    resources :answers do
+  resources :questions, concerns: [:votable], shallow: true do
+    resources :answers, concerns: [:votable] do
       patch :best, on: :member
     end  
   end  
