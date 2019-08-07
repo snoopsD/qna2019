@@ -1,10 +1,6 @@
 h3= question.title
 p=  question.body
-.question-votes
-  = link_to '+', voteup_question_path(question), method: :post, remote: true, data: { type: :json }
-  .question-score
-    p= question.rate
-  = link_to '-', votedown_question_path(question), method: :post, remote: true, data: { type: :json }
+= render 'shared/vote', resource: question
 
 .links-question
   - if question.links.exists?

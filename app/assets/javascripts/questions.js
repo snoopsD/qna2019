@@ -12,6 +12,7 @@ $(document).on('turbolinks:load', function(){
   })
   .on('ajax:error', function(e) {
     var errors = e.detail[0];
+    console.log(errors);
     $.each(errors, function(index, value) {
       $('.question-errors').html('<p>' + value + '</p>');
     })

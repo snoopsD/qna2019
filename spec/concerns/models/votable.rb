@@ -1,17 +1,10 @@
 shared_examples_for "votable" do  
   it { should have_many(:votes).dependent(:destroy) }
-  resource = described_class.to_s.underscore.to_sym
-
+  
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  if resource == :question
-    let!(:model)   { create(resource.to_s.underscore.to_sym, user: user) }
-  else
-    let!(:model)   { create(resource.to_s.underscore.to_sym, question: question) }
-  end  
   
-
   describe '#voteup' do
 
     context 'user votes for the first time' do
@@ -29,7 +22,7 @@ shared_examples_for "votable" do
     end
 
     context 'user change his vote from negative to positive' do
-      let!(:vote) { create(:negative_vote, votable: model, user: other_user) }
+      let(:vote) { create(:negative_vote, votable: model, user: other_user) }
 
       it 'increases by 1' do
         expect { model.voteup(other_user) }.to change(model, :rate).by(1)
@@ -54,7 +47,7 @@ shared_examples_for "votable" do
     end
 
     context 'user change his vote from positive to negative' do
-      let!(:vote) { create(:vote, votable: model, user: other_user) }
+      let(:vote) { create(:vote, votable: model, user: other_user) }
 
       it 'increases by 1' do
         expect { model.votedown(other_user) }.to change(model, :rate).by(-1)

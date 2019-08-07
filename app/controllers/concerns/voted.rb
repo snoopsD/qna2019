@@ -25,7 +25,7 @@ module Voted
 
   def respond(result)
     if result.errors.any?
-      render json: result.errors.full_messages, status: :unprocessable_entity
+      render json: result.errors.full_messages, status: 422
     else
       render json: @votable.rate, status: :ok
     end

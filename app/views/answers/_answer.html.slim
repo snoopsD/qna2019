@@ -1,11 +1,8 @@
 - if answer.persisted?
   div id="answer-#{answer.id}" class=("best-answer" if answer.best)
     = answer.body
-    .answer-votes
-      = link_to '+', voteup_answer_path(answer), method: :post, remote: true, data: { type: :json }
-      .answer-score
-        p= answer.rate
-      = link_to '-', votedown_answer_path(answer), method: :post, remote: true, data: { type: :json }
+    = render 'shared/vote', resource: answer
+      
     - if current_user&.author?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
       | |
