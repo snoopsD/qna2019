@@ -1,0 +1,31 @@
+- question_user_id = @data['question_user_id']
+- answer_user_id = @data['answer_user_id']
+- answer = @data['answer']
+- answer_rate = @data['answer_rate']
+- files = @data['files']
+- links = @data['links']
+
+div id="answer-#{answer.id}" 
+  = answer.body
+
+  div class="answer-votes"
+    a href="/answers/#{answer.id}/voteup" data-method='post' data-remote='true' +
+    div class="answer-score"  
+      p= answer_rate
+    a href="/answers/#{answer.id}/votedown" data-method='post' data-remote='true' -
+  
+  .links-answer
+    - if files.length?
+      p Links:
+      ul.links
+        - links.forEach (link) ->
+          li id="link-#{link.id}"
+            a href="#{{link.url}}"
+              == link.name
+
+  .attachments-answer      
+    - if files.length? 
+      - files.forEach (file) ->
+        .file id="attachment-#{file.id}"
+          a href="#{file.url}" #{file.name}    
+          br   

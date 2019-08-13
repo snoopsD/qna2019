@@ -14,12 +14,15 @@
 //= require activestorage
 //= require turbolinks
 //= require jquery3
+//= require action_cable
+//= require skim
 //= require_tree .
 //= require cocoon
 //=require_self
-
-
 // direct_uploads.js
+
+var App = App || {};
+App.cable = ActionCable.createConsumer();
  
 addEventListener("direct-upload:initialize", event => {
   const { target, detail } = event

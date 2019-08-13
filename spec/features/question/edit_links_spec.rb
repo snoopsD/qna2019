@@ -24,7 +24,6 @@ feature 'User can edit links to question', %q{
 
         click_on 'Save'
       end  
-
       expect(page).to have_link 'Github', href: 'https://github.com'
 
     end

@@ -10,6 +10,7 @@ $(document).on('turbolinks:load', function(){
     var rates = e.detail[0];
     $('.question-score').html('<p>' + rates + '</p>')
   })
+
   .on('ajax:error', function(e) {
     var errors = e.detail[0];
     console.log(errors);
@@ -17,4 +18,5 @@ $(document).on('turbolinks:load', function(){
       $('.question-errors').html('<p>' + value + '</p>');
     })
   })
+  
 });

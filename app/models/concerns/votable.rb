@@ -20,16 +20,12 @@ module Votable
   private 
 
   def vote(score, user)
-    vote = votes.where(user: user, score: score).first  
+    vote = votes.where(user: user, score: score).first 
 
     if vote
       vote.destroy
     else
-      begin
-        votes.create!(score: score, user: user)
-      rescue => err
-        err.record
-      end  
+      votes.create(score: score, user: user)
     end 
   end
 end
