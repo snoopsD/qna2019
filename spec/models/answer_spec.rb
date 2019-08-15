@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  it_behaves_like 'votable' do
+    let!(:model)   { create(described_class.to_s.underscore.to_sym, question: question, user: user) }
+  end
   it { should belong_to(:question) }
   it { should belong_to(:user) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
   it { should have_one(:badge) }
 
   it { should validate_presence_of(:body) }
@@ -27,7 +31,6 @@ RSpec.describe Answer, type: :model do
     end
     
     it 'add badge to user for the best answer' do
-      byebug
       expect { answer.check_best }.to change(other_user.badges, :count).by(1)      
     end
 

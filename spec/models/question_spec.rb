@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+  it_behaves_like 'votable' do
+    let(:model)   { create(described_class.to_s.underscore.to_sym, user: user) }
+  end
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
   it { should belong_to(:user) }
   it { should have_one(:badge).dependent(:destroy) }
 

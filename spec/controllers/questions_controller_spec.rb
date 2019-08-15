@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  it_should_behave_like 'voted' do
+    let(:user_resource) { create(:question, user: user) }
+  end
+  
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:question) { create(:question, user: user) }
