@@ -1,0 +1,9 @@
+$('.flash').html('<%= flash[:notice] %>');
+$('.comment-errors').html('<%= render 'shared/errors', resource: comment %>');
+
+<% resource = comment.commentable.class.to_s.downcase%>
+<% if comment.persisted? %>
+  $('.comments-<%= resource %>-<%= comment.commentable.id %>').append('<%= j render comment %>');
+  $('.new-comment-<%= resource%> #comment_body').val('');
+<% end %>  
+

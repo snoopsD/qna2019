@@ -2,6 +2,7 @@
   div id="answer-#{answer.id}" class=("best-answer" if answer.best)
     = answer.body
     = render 'shared/vote', resource: answer
+    = render 'comments/comments', resource: answer 
       
     - if current_user&.author?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
