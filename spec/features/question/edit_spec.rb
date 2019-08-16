@@ -33,6 +33,9 @@ feature 'User can edit own question', %q{
 
         expect(page).to_not have_content question.body
         expect(page).to have_content 'edited question'
+      end
+
+      within '.question-edit' do
         expect(page).to_not have_selector 'textarea'
       end
     end

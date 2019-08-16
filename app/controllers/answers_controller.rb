@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   include Voted
   before_action :authenticate_user!
 
+  after_action :publish_answer, only: [:create]
+
   def create  
     @answer = question.answers.new(answer_params)
     @answer.user = current_user    
@@ -25,6 +27,21 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if answer.errors.any?
+
+    data = {
+      answer: answer,
+      answer_user_id:     current_user.id,
+      answer_rate:        answer.rate,
+      links: answer.links,
+      files: answer.files.map { |file| { id: file.id, name: file.filename.to_s, url: url_for(file) } },
+      question_user_id:   question.user_id,      
+    }
+
+    ActionCable.server.broadcast("question_#{params[:question_id]}", data)
+  end
 
   def question
     @question ||= Question.find(params[:question_id]) 

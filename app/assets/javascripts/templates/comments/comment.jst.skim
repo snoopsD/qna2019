@@ -1,0 +1,5 @@
+p #{@user_email}
+p #{@comment.body}
+
+
+

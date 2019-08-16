@@ -8,6 +8,7 @@ feature 'User can create answer', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
+  given!(:habr_url)  { 'https://habr.ru' }
 
   describe 'Authenticated user', js: true  do
 
@@ -43,6 +44,39 @@ feature 'User can create answer', %q{
       expect(page).to have_link 'spec_helper.rb'
     end
 
+  end
+
+  context "multiple answers", js: true do
+    scenario "answers appears on another question page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do 
+        fill_in 'Body', with: 'text answer' 
+        fill_in 'Link name', with: 'habr'
+        fill_in 'Url', with: habr_url
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb"]
+        click_on 'Post answer'
+
+        expect(page).to have_content 'Your answer successfully created.'
+        expect(page).to have_content 'text answer'
+        expect(page).to have_link 'habr', href: habr_url 
+        expect(page).to have_link 'rails_helper.rb'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'text answer'
+        expect(page).to have_link 'habr', href: habr_url
+        expect(page).to have_link 'rails_helper.rb'
+      end
+    end
+    
   end
 
   describe 'Unauthenticated user' do

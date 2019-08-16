@@ -31,7 +31,10 @@ feature 'User can edit own answer', %q{
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
-        expect(page).to have_content 'edited answer'
+        expect(page).to have_content 'edited answer'        
+      end
+
+      within '.question-edit' do
         expect(page).to_not have_selector 'textarea'
       end
     end
