@@ -1,0 +1,6 @@
+h1 Add email information
+= form_tag register_path, method: :post do
+  = label_tag 'Email'
+  = text_field_tag 'auth_hash[info][email]'
+
+  p= submit_tag 'Add'

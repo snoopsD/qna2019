@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
+  devise_scope :user do
+    post '/register' => 'oauth_callbacks#register'
+  end
+
   concern :votable do
     member do
       post :voteup
