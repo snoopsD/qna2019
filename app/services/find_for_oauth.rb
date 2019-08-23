@@ -6,9 +6,10 @@ class Services::FindForOauth
   end
 
   def call
+
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
-    
+
     email = auth.info[:email] 
     user = User.where(email: email).first
     

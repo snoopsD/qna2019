@@ -13,13 +13,15 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def sign_in_or_register
+    
     @user = User.find_for_oauth(auth)
+    session[:provider] = auth.provider
+    session[:uid] = auth.uid
+    
     if @user&.persisted?
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: auth.provider) if is_navigational_format?
     else
-      session[:provider] = auth.provider
-      session[:uid] = auth.uid
       render 'oauth_callbacks/add_mail', locals: { auth_hash: auth } 
     end
   end

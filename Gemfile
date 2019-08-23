@@ -54,6 +54,7 @@ group :development, :test do
   gem 'slim-rails'
   gem 'jquery-rails'
   gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do
