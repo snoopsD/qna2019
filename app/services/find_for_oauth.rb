@@ -11,7 +11,7 @@ class Services::FindForOauth
 
     email = auth.info[:email] if auth.try(:info, :email)
     password = Devise.friendly_token[0, 20]
-    return User.create(password: password, password_confirmation: password) unless email
+    return User.new(password: password, password_confirmation: password) unless email
 
     user = User.where(email: email).first
     unless user
