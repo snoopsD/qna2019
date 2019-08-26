@@ -42,6 +42,9 @@ gem 'cocoon'
 gem "octokit", "~> 4.0"
 gem 'gon'
 gem 'skim'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-instagram'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -50,6 +53,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'slim-rails'
   gem 'jquery-rails'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do

@@ -16,8 +16,13 @@ feature 'User can sign up', %q(
 
   scenario 'Unregistered user tries to sign up' do
     click_on 'Sign up'
-
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    open_email(user.email)  
+    current_email.click_link 'Confirm my account'
+    visit new_user_session_path
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_on 'Log in'
+    expect(page).to have_content 'Signed in successfully.'  
   end
 
   scenario 'Registered user tries to sign up' do
