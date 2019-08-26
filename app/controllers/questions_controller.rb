@@ -3,8 +3,12 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]  
 
   after_action :publish_question, only: [:create]
+  
+  authorize_resource  
+  skip_authorization_check only: :index
 
   def index
+    authorize! :read, Question
     @questions = Question.all
   end
   
