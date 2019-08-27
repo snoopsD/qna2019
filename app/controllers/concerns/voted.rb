@@ -6,10 +6,12 @@ module Voted
   end  
 
   def voteup
+    authorize! :voteup, @votable
     respond(@votable.voteup(current_user))
   end  
 
   def votedown
+    authorize! :voteup, @votable
     respond(@votable.votedown(current_user))
   end 
 

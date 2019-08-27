@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   after_action  :publish_comment, only: :create
 
   def create
+    authorize! :create, Comment
     @commentable.comments << comment
     comment.user = current_user
     comment.save

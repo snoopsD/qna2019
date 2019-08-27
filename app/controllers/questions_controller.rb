@@ -4,25 +4,26 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: [:create]
   
-  authorize_resource  
-  skip_authorization_check only: :index
-
+ 
   def index
     authorize! :read, Question
     @questions = Question.all
   end
   
   def new
+    authorize! :create, Question
     question.links.new
     question.build_badge
   end
 
   def show
+    authorize! :read, question
     @answer = question.answers.new
     @answer.links.new
   end  
 
   def create
+    authorize! :create, Question
     @question = current_user.questions.new(question_params)
 
     if @question.save
@@ -33,16 +34,14 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params) if current_user.author?(question)
+    authorize! :update, question
+    question.update(question_params)
   end
 
   def destroy
-    if current_user.author?(question)
-      question.destroy
-      redirect_to questions_path, notice: "Question successfully delete"
-    else
-      redirect_to question, notice: 'You are not the author question.'
-    end
+    authorize! :destroy, question
+    question.destroy
+    redirect_to questions_path, notice: "Question successfully delete"
   end
 
   def remove_attachments

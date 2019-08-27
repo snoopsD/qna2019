@@ -29,9 +29,9 @@ RSpec.describe AttachmentsController, type: :controller do
         expect { delete :destroy, params: { id: answer.files.first }, format: :js }.to_not change(answer.files.attachments, :count)
       end
 
-      it 'redirects to question', js: true do
+      it 'responds with status code 403', js: true do
         delete :destroy, params: { id: answer.files.first }, format: :js
-        expect(response).to render_template :destroy
+        expect(response.status).to eq(403)
       end
 
     end 

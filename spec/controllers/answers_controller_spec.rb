@@ -68,9 +68,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-render to answer' do
+      it 'responds with status code 403' do
         delete :destroy, params: { question_id: question, id: answer }, format: :js
-        expect(response).to render_template :destroy
+        expect(response.status).to eq(403)
       end
     end
 

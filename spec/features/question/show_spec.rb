@@ -13,9 +13,10 @@ feature 'User can see question with answers', %q{
 
   scenario 'Any user can see question with answers' do
     visit question_path(question)
-    
+
     expect(page).to have_content("QuestionTitle")
-    expect(page).to have_content("AnswerBody", count: 2)
+    expect(page).to have_content(answers.first.body)
+    expect(page).to have_content(answers.last.body)
   end
 
   describe "Give a score for question", js: true do
@@ -26,11 +27,7 @@ feature 'User can see question with answers', %q{
         visit question_path(question)
 
         within '.question-votes' do
-          click_on '+'
-        end  
-
-        within '.question-errors' do
-          expect(page).to have_content("Author can't vote")
+          expect(page).to_not have_link '+'
         end
       end
 
@@ -39,19 +36,15 @@ feature 'User can see question with answers', %q{
         visit question_path(question)
 
         within '.question-votes' do
-          click_on '-'
-        end  
-
-        within '.question-errors' do
-          expect(page).to have_content("Author can't vote")          
+          expect(page).to_not have_link '-'
         end
       end
 
       scenario 'not author question can voteup' do
         sign_in(other_user)
         visit question_path(question)
-
-        within '.question-score' do
+        
+        within ".question-score-#{question.id}" do
           expect(page).to_not have_content("1")
         end
 
@@ -59,7 +52,7 @@ feature 'User can see question with answers', %q{
           click_on '+'
         end  
 
-        within '.question-score' do
+        within ".question-score-#{question.id}"  do
           expect(page).to have_content("1")
         end
       end
@@ -68,7 +61,7 @@ feature 'User can see question with answers', %q{
         sign_in(other_user)
         visit question_path(question)
 
-        within '.question-score' do
+        within ".question-score-#{question.id}"  do
           expect(page).to_not have_content("-1")
         end
 
@@ -76,7 +69,7 @@ feature 'User can see question with answers', %q{
           click_on '-'
         end  
 
-        within '.question-score' do
+        within ".question-score-#{question.id}"  do
           expect(page).to have_content("-1")
         end
       end
@@ -85,7 +78,7 @@ feature 'User can see question with answers', %q{
         sign_in(other_user)
         visit question_path(question)
 
-        within '.question-score' do
+        within ".question-score-#{question.id}"  do
           expect(page).to_not have_content("1")
         end
 
@@ -97,7 +90,7 @@ feature 'User can see question with answers', %q{
           click_on '+'
         end  
 
-        within '.question-score' do
+        within ".question-score-#{question.id}"  do
           expect(page).to have_content("1")
         end
       end
@@ -108,20 +101,16 @@ feature 'User can see question with answers', %q{
         visit question_path(question)
 
         within '.question-votes' do
-          click_on '+'
-        end  
-
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+          expect(page).to_not have_link '+'
+        end
       end
 
       scenario 'cant votedown' do
         visit question_path(question)
 
         within '.question-votes' do
-          click_on '-'
-        end  
-
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+          expect(page).to_not have_link '-'
+        end
       end
     end
   end

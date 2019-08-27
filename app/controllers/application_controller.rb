@@ -2,11 +2,16 @@ class ApplicationController < ActionController::Base
 
   before_action :gon_user, unless: :devise_controller?
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
+  rescue_from CanCan::AccessDenied do |e|
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: e.message }
+      format.json { render json: [exception.message], status: 403 }
+      format.js   { render json: { error: e.message }, status: :forbidden }
+    end
   end
 
   check_authorization  
+  skip_authorization_check if: :devise_controller?
 
   private 
 

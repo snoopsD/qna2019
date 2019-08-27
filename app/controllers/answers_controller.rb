@@ -5,25 +5,27 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: [:create]
 
   def create  
+    authorize! :create, answer
     @answer = question.answers.new(answer_params)
     @answer.user = current_user    
     flash[:notice] = 'Your answer successfully created.' if @answer.save
   end
 
   def update
-    answer.update(answer_params) if current_user.author?(answer)
+    authorize! :update, answer
+    answer.update(answer_params)
     @question = answer.question
   end
 
   def destroy
-    if current_user.author?(answer)
-      answer.destroy
-      flash[:notice] = "Answer successfully delete"
-    end
+    authorize! :destroy, answer
+    answer.destroy
+    flash[:notice] = "Answer successfully delete"
   end
 
   def best
-    answer.check_best if current_user.author?(answer.question)
+    authorize! :best, answer
+    answer.check_best 
   end
 
   private
