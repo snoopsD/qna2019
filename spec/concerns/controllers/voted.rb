@@ -35,9 +35,9 @@ shared_examples_for "voted" do
         expect { send_request(:voteup, user_resource) }.to_not change(Vote, :count)
       end   
 
-      it 'responds with json' do
+      it 'responds with status code 403' do
         send_request(:voteup, user_resource)
-        expect(response.content_type).to eq('application/json')
+        expect(response.status).to eq(403)
       end
     end
   end 
@@ -75,9 +75,9 @@ shared_examples_for "voted" do
         expect { send_request(:votedown, user_resource) }.to_not change(Vote, :count)
       end   
 
-      it 'responds with json' do
+      it 'responds with status code 403' do
         send_request(:votedown, user_resource)
-        expect(response.content_type).to eq('application/json')
+        expect(response.status).to eq(403)
       end
     end
   end  

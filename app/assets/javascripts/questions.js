@@ -7,8 +7,9 @@ $(document).on('turbolinks:load', function(){
   })
 
   $('.question-votes').on('ajax:success', function(e) {
+    var questionId = $(this).parent().attr('data-id'); 
     var rates = e.detail[0];
-    $('.question-score').html('<p>' + rates + '</p>')
+    $('.question-score-' + questionId).html('<p>' + rates + '</p>')
   })
 
   .on('ajax:error', function(e) {

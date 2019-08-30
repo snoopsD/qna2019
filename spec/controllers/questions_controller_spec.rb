@@ -165,7 +165,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 're-render to question' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to redirect_to root_path
       end
     end
 

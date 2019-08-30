@@ -9,7 +9,7 @@ feature 'User can score to asnwer', %q{
   given(:user)     { create(:user) }
   given(:other_user)     { create(:user) }
   given(:question) { create(:question, user: user) }
-  given!(:answers) { create(:answer, question: question, user: other_user) }
+  given!(:answer) { create(:answer, question: question, user: other_user) }
 
 
   describe "Give a score for answer", js: true do
@@ -20,11 +20,7 @@ feature 'User can score to asnwer', %q{
         visit question_path(question)
 
         within '.answer-votes' do
-          click_on '+'
-        end  
-
-        within '.answer-errors' do
-          expect(page).to have_content("Author can't vote")
+          expect(page).to_not have_link('+')
         end
       end
 
@@ -33,11 +29,7 @@ feature 'User can score to asnwer', %q{
         visit question_path(question)
 
         within '.answer-votes' do
-          click_on '-'
-        end  
-
-        within '.answer-errors' do
-          expect(page).to have_content("Author can't vote")          
+          expect(page).to_not have_link('-')
         end
       end
 
@@ -45,7 +37,7 @@ feature 'User can score to asnwer', %q{
         sign_in(user)
         visit question_path(question)
 
-        within '.answer-score' do
+        within ".answer-score-#{answer.id}" do
           expect(page).to_not have_content("1")
         end
 
@@ -53,7 +45,7 @@ feature 'User can score to asnwer', %q{
           click_on '+'
         end  
 
-        within '.answer-score' do
+        within ".answer-score-#{answer.id}" do
           expect(page).to have_content("1")
         end
       end
@@ -62,7 +54,7 @@ feature 'User can score to asnwer', %q{
         sign_in(user)
         visit question_path(question)
 
-        within '.answer-score' do
+        within ".answer-score-#{answer.id}" do
           expect(page).to_not have_content("-1")
         end
 
@@ -70,7 +62,7 @@ feature 'User can score to asnwer', %q{
           click_on '-'
         end  
 
-        within '.answer-score' do
+        within ".answer-score-#{answer.id}" do
           expect(page).to have_content("-1")
         end
       end
@@ -79,7 +71,7 @@ feature 'User can score to asnwer', %q{
         sign_in(user)
         visit question_path(question)
 
-        within '.answer-score' do
+        within ".answer-score-#{answer.id}" do
           expect(page).to_not have_content("1")
         end
 
@@ -90,8 +82,8 @@ feature 'User can score to asnwer', %q{
           sleep 0.3
           click_on '+'
         end  
-
-        within '.answer-score' do
+        
+        within ".answer-score-#{answer.id}" do
           expect(page).to have_content("1")
         end
       end
@@ -102,20 +94,16 @@ feature 'User can score to asnwer', %q{
         visit question_path(question)
 
         within '.answer-votes' do
-          click_on '+'
-        end  
-
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+          expect(page).to_not have_link('+')
+        end
       end
 
       scenario 'cant votedown' do
         visit question_path(question)
 
         within '.answer-votes' do
-          click_on '-'
-        end  
-
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+          expect(page).to_not have_link('-')
+        end
       end
     end
   end  
