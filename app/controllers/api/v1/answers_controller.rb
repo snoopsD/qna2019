@@ -1,7 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController 
  
   def index
-    authorize! :index, current_resource_owner
+    authorize! :index, Answer
     @answers = Answer.all
     render json: @answers, each_serializer: AnswersSerializer
   end
