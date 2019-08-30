@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: [:create]
 
   def create  
-    authorize! :create, answer
+    authorize! :create, Answer
     @answer = question.answers.new(answer_params)
     @answer.user = current_user    
     flash[:notice] = 'Your answer successfully created.' if @answer.save

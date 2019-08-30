@@ -29,6 +29,7 @@ class Ability
     can %i[voteup votedown], [Question, Answer]
     cannot %i[voteup votedown], [Question, Answer], user_id: user.id
     can :index, Badge
+    
     can :best, Answer do |answer|
       user.author?(answer.question) && !user.author?(answer)
     end

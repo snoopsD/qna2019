@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   before_action :gon_user, unless: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |e|
@@ -10,8 +9,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  check_authorization  
-  skip_authorization_check if: :devise_controller?
+  check_authorization unless: :devise_controller?
 
   private 
 
