@@ -30,7 +30,9 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[votable commentable], shallow: true do
     resources :answers, concerns: %i[votable commentable] do
       patch :best, on: :member
-    end  
+    end 
+
+    resources :subscribes, shallow: true, only: %i[create destroy]
   end  
 
   namespace :api do

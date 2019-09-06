@@ -15,12 +15,20 @@ class Answer < ApplicationRecord
 
   default_scope {order(best: :desc)}
 
+  after_commit :subscribe_job, on: :create
+
   def check_best
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
       update!(badge: question.badge) if question.badge
     end  
+  end
+
+  private
+
+  def subscribe_job
+    AnswersNotifyJob.perform_later(self)
   end
   
 end

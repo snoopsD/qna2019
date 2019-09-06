@@ -67,7 +67,7 @@ feature 'User can edit own answer', %q{
         sign_in(other_user)
       
         visit question_path(question)  
- 
+
         within first('.answer-file')  do 
           expect(page).to_not have_link 'delete'
         end  
