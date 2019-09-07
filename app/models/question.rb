@@ -6,7 +6,7 @@ class Question < ApplicationRecord
   has_many :links, dependent: :destroy, as: :linkable
   belongs_to :user
   has_one :badge, dependent: :destroy
-  has_many :subscribes, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   has_many_attached :files
 
@@ -20,7 +20,7 @@ class Question < ApplicationRecord
   private 
 
   def subscribe_author
-    Subscribe.create!(user: user, question: self)
+    self.subscriptions.create!(user: user, question: self)
   end
   
 end

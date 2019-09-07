@@ -6,11 +6,11 @@ RSpec.describe AnswersMailer, type: :mailer do
     let(:other_user) { create(:user) }
     let!(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question, user: user) }
-    let(:subscribe) { create(:subscribe, question: question, user: other_user)  }
-    let(:mail) { AnswersMailer.notify_subscribers(subscribe) }
+    let(:subscription) { create(:subscription, question: question, user: other_user)  }
+    let(:mail) { AnswersMailer.notify_subscribers(subscription) }
 
     it "renders the headers" do
-      expect(mail.to).to eq([subscribe.user.email])
+      expect(mail.to).to eq([subscription.user.email])
       expect(mail.from).to eq(["from@example.com"])
     end
 

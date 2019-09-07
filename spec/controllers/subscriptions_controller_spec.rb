@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe SubscribesController, type: :controller do
+RSpec.describe SubscriptionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:other_user) { create(:user) }
   let!(:question) { create(:question, user: user) }  
+  let(:other_user) { create(:user) }
 
   describe 'POST #create' do
     context 'with authenticated user' do
-      before { login(user) }
+      before { login(other_user) }
 
       it 'add subscribe' do
-        expect { post :create, params: { question_id: question, user_id: user }, format: :js }.to change(user.subscribes, :count).by(1)
+        expect { post :create, params: { question_id: question, user_id: other_user }, format: :js }.to change(other_user.subscriptions, :count).by(1)
       end
 
       it 'render subsribe' do
@@ -22,7 +22,7 @@ RSpec.describe SubscribesController, type: :controller do
 
     context 'with unauthenticated user' do
       it "can't add subscribe" do
-        expect { post :create, params: { question_id: question }, format: :js }.to_not change(Subscribe, :count)
+        expect { post :create, params: { question_id: question }, format: :js }.to_not change(Subscription, :count)
       end
 
       it '401 status' do
@@ -34,17 +34,18 @@ RSpec.describe SubscribesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:subscribe) { create(:subscribe, user: user, question: question) }
+    let!(:subscription) { create(:subscription, user: other_user, question: question) }
 
     context 'with authenticated user' do
-      before { login(user) }
+      before { login(other_user) }
 
       it 'remove subscribe' do
-        expect { delete :destroy, params: { question_id: question, id: subscribe }, format: :js }.to change(user.subscribes, :count).by(-1)
+        expect { delete :destroy, params: { question_id: question, id: subscription }, format: :js }.to change(other_user.subscriptions, :count).by(-1)
+
       end
 
       it 'render subscribe' do
-        delete :destroy, params: { question_id: question, id: subscribe }, format: :js
+        delete :destroy, params: { question_id: question, id: subscription }, format: :js
 
         expect(response).to render_template :destroy
       end
@@ -52,11 +53,11 @@ RSpec.describe SubscribesController, type: :controller do
 
     context 'with unauthenticated user' do
       it "can't remove subscribe" do
-        expect { delete :destroy, params: { question_id: question, id: subscribe }, format: :js }.to_not change(Subscribe, :count)
+        expect { delete :destroy, params: { question_id: question, id: subscription }, format: :js }.to_not change(Subscription, :count)
       end
 
       it '401 status' do
-        delete :destroy, params: { question_id: question, id: subscribe }, format: :js
+        delete :destroy, params: { question_id: question, id: subscription }, format: :js
 
         expect(response).to have_http_status(401)
       end

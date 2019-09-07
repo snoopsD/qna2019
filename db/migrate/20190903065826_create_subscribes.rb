@@ -1,6 +1,6 @@
 class CreateSubscribes < ActiveRecord::Migration[5.2]
   def change
-    create_table :subscribes do |t|
+    create_table :subscriptions do |t|
       t.belongs_to :question, foreign_key: true, null: false
       t.belongs_to :user, foreign_key: true, null: false
 

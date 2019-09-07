@@ -1,8 +1,8 @@
 class AnswersMailer < ApplicationMailer
 
-  def notify_subscribers(subscribe)
-    @subscribe = subscribe
+  def notify_subscribers(subscription)
+    @subscription = subscription
 
-    mail to: subscribe.user.email
+    mail to: subscription.user.email
   end
 end

@@ -34,9 +34,9 @@ p=  question.body
 
 = render 'comments/comments', resource: question
 
--if can? :create, Subscribe
+-if can? :create, Subscription
   .subscription
-    = render 'subscribes/subscribe', question: question
+    = render 'subscriptions/subscribe', question: question
 
 
 

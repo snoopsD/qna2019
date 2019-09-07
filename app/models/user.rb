@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :badges, through: :answers
   has_many :authorizations, dependent: :destroy
-  has_many :subscribes, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable,
@@ -22,6 +22,6 @@ class User < ApplicationRecord
   end
 
   def subscribed_for?(question)
-    question.subscribes.where(user: self).exists?
+    question.subscriptions.exists?(user: self)
   end
 end
