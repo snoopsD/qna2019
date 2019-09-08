@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :badges, through: :answers
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable,
@@ -18,5 +19,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def subscribed_for?(question)
+    question.subscriptions.exists?(user: self)
   end
 end

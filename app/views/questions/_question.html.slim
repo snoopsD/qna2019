@@ -32,7 +32,11 @@ p=  question.body
       p
         = f.submit 'Save'
 
-= render 'comments/comments', resource: question          
+= render 'comments/comments', resource: question
+
+-if can? :create, Subscription
+  .subscription
+    = render 'subscriptions/subscribe', question: question
 
 
 
