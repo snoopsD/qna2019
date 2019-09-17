@@ -22,8 +22,8 @@ feature 'User can search for user', %q{
         end
 
         expect(page).to have_content 'Users find'
-        expect(page).to have_content 'user1@test.com'
-        expect(page).to_not have_content 'user2@test.com'
+        expect(page).to have_content user.email
+        expect(page).to_not have_content other_user.email
       end  
     end
   end

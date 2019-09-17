@@ -1,3 +1,0 @@
-require 'sphinx_helper'
-
-
