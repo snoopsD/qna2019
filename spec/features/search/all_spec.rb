@@ -1,9 +1,9 @@
 require 'sphinx_helper'
 
-feature 'User can search for all', %q{
+feature 'User can search by some criteria', %q{
   In order to find needed somebody
-  As a User
-  I'd like to be able to search for the all } do   
+  As a User can use search to find
+  Users, Questions, Answers and Comments } do   
 
   given(:user)     { create(:user) }
   given(:other_user) { create(:user) }
@@ -18,7 +18,7 @@ feature 'User can search for all', %q{
       ThinkingSphinx::Test.run do
 
         within('.search') do
-          fill_in "find_field", with: 'user1'
+          fill_in "find_field", with: 'user1@test.com'
           select 'all', from: :query        
           click_on 'Find'
         end

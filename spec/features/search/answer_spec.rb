@@ -23,7 +23,8 @@ feature 'User can search for answer', %q{
 
         expect(page).to have_content 'Answers find'
         expect(page).to have_content 'AnswerBody1'
-        expect(page).to_not have_content 'QuestionTitle'
+        expect(page).to have_content 'QuestionTitle'
+        expect(page).to_not have_content 'Add answer'
       end  
     end
   end

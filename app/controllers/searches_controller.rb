@@ -2,9 +2,9 @@ class SearchesController < ApplicationController
   skip_authorization_check
 
   def find   
-    if search_params[:find_field] != ""
+    if !search_params[:find_field].empty?
       @query_show = Services::Searches.find_query(search_params[:query], search_params[:find_field])
-      render "_#{search_params[:query].underscore}"
+      render partial: "all"
     else
       redirect_to root_path, alert: 'Empty query'
     end 

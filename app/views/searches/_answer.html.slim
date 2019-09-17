@@ -1,4 +1,6 @@
 h1 Answers find
 
-- @query_show.each do |q|
-  = link_to q.body, question_path(q.question)
+p
+  ' Question title: #{link_to resource.question.title, question_path(resource.question)}
+p
+  = resource.body

@@ -28,5 +28,6 @@
 /config/database.yml
 
 .env
-config/*.sphinx.com
-db/sphinx
+/config/*.sphinx.conf
+/db/sphinx
+config/thinking_sphinx.yml

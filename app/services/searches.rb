@@ -6,10 +6,13 @@ class Services::Searches
   end
 
   def self.find_query(index, query)
+    return nil unless index.in?(self.type_of_select)
+    
+
     if index != 'all'
-      index.classify.constantize.search query.to_s
+      index.classify.constantize.search ThinkingSphinx::Query.escape(query.to_s)
     else
-      ThinkingSphinx.search query.to_s
+      ThinkingSphinx.search ThinkingSphinx::Query.escape(query.to_s)
     end  
   end
 end
