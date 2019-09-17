@@ -1,0 +1,4 @@
+= form_with url: search_path, method: :get, local: true do |f|
+  = f.select :query, Services::Searches.type_of_select
+  = f.text_field :find_field
+  = f.submit 'Find'

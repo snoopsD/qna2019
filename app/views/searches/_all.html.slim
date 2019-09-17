@@ -1,0 +1,24 @@
+
+- @query_show.each do |q|
+  - if q.class == Question
+    h3 Questions find
+    = link_to q.title, question_path(q)
+
+  - if q.class == Answer
+    h3 Answers find
+    = link_to q.body, question_path(q.question)  
+  
+  -if q.class == Comment
+    h3 Comments find 
+    - if q.commentable.class == Question
+      = link_to q.body, question_path(q.commentable) 
+    - elsif q.commentable.class == Answer
+      = link_to q.body, question_path(q.commentable.question)
+     
+  - if q.class == User
+    h3 Users find
+    = q.email  
+  br
+
+
+

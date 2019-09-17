@@ -1,0 +1,8 @@
+h1 Comments find
+
+- @query_show.each do |q|
+  - if q.commentable.class.to_s == "Question" 
+    = link_to q.body, question_path(q.commentable)
+  - else  
+    = link_to q.body, question_pathq(q.commentable.question)
+

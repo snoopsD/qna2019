@@ -28,3 +28,5 @@
 /config/database.yml
 
 .env
+config/*.sphinx.com
+db/sphinx
