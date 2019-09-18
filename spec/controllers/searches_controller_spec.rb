@@ -19,7 +19,7 @@ RSpec.describe SearchesController, type: :controller do
 
       it 'render template' do
         get :find, params: { query: 'question', find_field: 'MyQuestion' }
-        expect(response).to render_template "searches/_all"
+        expect(response).to render_template "find"
       end
     end
 
