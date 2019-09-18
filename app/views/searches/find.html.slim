@@ -1,0 +1,3 @@
+- @query_show.each do |object|
+  = render "searches/#{object.class.name.downcase}", resource: object
+

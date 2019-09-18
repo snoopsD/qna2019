@@ -33,8 +33,8 @@ Rails.application.routes.draw do
     end 
 
     resources :subscriptions, shallow: true, only: %i[create destroy]
-  end  
-
+  end   
+ 
   namespace :api do
     namespace :v1 do
       resources :profiles, only: [:index] do
@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       end        
     end
   end
+
+  get 'search', controller: :searches, action: :find
 
   resources :attachments, only: :destroy
   resources :links, only: :destroy

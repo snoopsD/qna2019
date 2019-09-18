@@ -14,6 +14,7 @@ html
     p .class="alert" = alert
 
     p
+      = render 'searches/form'
       - if user_signed_in?
         = link_to 'Show badges', user_badges_path(current_user)
         br

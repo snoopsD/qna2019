@@ -1,0 +1,10 @@
+h1 Comments find
+
+p
+  | Question title:
+  - if resource.commentable.class == Answer
+    = link_to resource.commentable.question.title, question_path(resource.commentable.question)
+  - else
+    = link_to resource.commentable.title, question_path(resource.commentable)
+p
+  = resource.body
