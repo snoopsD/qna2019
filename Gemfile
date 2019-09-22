@@ -55,6 +55,7 @@ gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'mini_racer'
+gem 'jquery-rails'
 
 
 group :development, :test do
