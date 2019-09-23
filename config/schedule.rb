@@ -17,8 +17,8 @@ every 1.minute do
   runner "DailyDigestJob.perform_now"
 end
 
-every 30.minute do
-  runner "ts:index"
+every 30.minutes do
+  runner 'ts:index'
 end
 
 
