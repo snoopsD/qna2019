@@ -18,7 +18,7 @@ every 1.minute do
 end
 
 every 30.minutes do
-  runner 'ts:index'
+  rake 'ts:index'
 end
 
 
