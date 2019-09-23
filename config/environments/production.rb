@@ -96,7 +96,7 @@ Rails.application.configure do
     address: 'smtp.sendgrid.net',
     port: 465,
     authentication: :plain,
-    domain: '51.15.121.165', 
+    domain: 'sendgrid.com', 
     user_name: Rails.application.credentials[Rails.env.to_sym][:smtp][:login],
     password: Rails.application.credentials[Rails.env.to_sym][:smtp][:password],
     enable_starttls_auto: true
