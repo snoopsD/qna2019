@@ -95,7 +95,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.sendgrid.net',
     port: 465,
-    authentication: 'plain',
+    authentication: :login,
     domain: '51.15.121.165', 
     user_name: Rails.application.credentials[Rails.env.to_sym][:smtp][:login],
     password: Rails.application.credentials[Rails.env.to_sym][:smtp][:password],
