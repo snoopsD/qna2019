@@ -56,6 +56,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'mini_racer'
 gem 'jquery-rails'
+gem 'unicorn'
 
 
 group :development, :test do
@@ -63,12 +64,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails'
   gem 'slim-rails'
-  gem 'jquery-rails'
   gem 'letter_opener'
   gem 'capybara-email'
 end
 
-group :development do
+group :development do  gem 'jquery-rails'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
@@ -82,6 +82,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
