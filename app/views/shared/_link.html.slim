@@ -1,13 +1,14 @@
 .links
   p Links:
   - links.each do |link|
-    ul
-      div id="link-#{link.id}"
-        - if link.gist? 
-          - link.show_gist.each do |file|
-            = file[:name]
-            br
-            = file[:content]
-        - else
-          li= link_to link.name, link.url 
+    - cache link do
+      ul
+        div id="link-#{link.id}"
+          - if link.gist? 
+            - link.show_gist.each do |file|
+              = file[:name]
+              br
+              = file[:content]
+          - else
+            li= link_to link.name, link.url 
 

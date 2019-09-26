@@ -1,38 +1,39 @@
-h3= question.title
-p=  question.body
-= render 'shared/vote', resource: question
+- cache question do
+  h3= question.title
+  p=  question.body
+  = render 'shared/vote', resource: question
 
-.links-question
-  - if question.links.exists?
-    = render 'shared/link', links: question.links
+  .links-question
+    - if question.links.exists?
+      = render 'shared/link', links: question.links
 
-.attachments-question
-- if question.files.attached? 
-  = render 'shared/attachments', resource: question
+  .attachments-question
+  - if question.files.attached? 
+    = render 'shared/attachments', resource: question
 
--if can? :update, question
-  = link_to 'Edit |', '#', class: 'edit-question-link', data: { question_id: question.id } 
--if can? :destroy, question
-  = link_to 'Delete question', question, method: :delete
-  br
+  -if can? :update, question
+    = link_to 'Edit |', '#', class: 'edit-question-link', data: { question_id: question.id } 
+  -if can? :destroy, question
+    = link_to 'Delete question', question, method: :delete
+    br
 
-  .question-edit  
-    = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-      p
-        = f.label :title
-        = f.text_field :title
-      p
-        = f.label :body
-        = f.text_area :body
-      p  
-        = f.label :files
-        = f.file_field :files, multiple: true
-      = fields_for :links do |link|
-        = render 'shared/link_form', f: f
-      p
-        = f.submit 'Save'
+    .question-edit  
+      = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+        p
+          = f.label :title
+          = f.text_field :title
+        p
+          = f.label :body
+          = f.text_area :body
+        p  
+          = f.label :files
+          = f.file_field :files, multiple: true
+        = fields_for :links do |link|
+          = render 'shared/link_form', f: f
+        p
+          = f.submit 'Save'
 
-= render 'comments/comments', resource: question
+  = render 'comments/comments', resource: question
 
 -if can? :create, Subscription
   .subscription

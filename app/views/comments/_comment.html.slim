@@ -1,5 +1,6 @@
-p
-  = comment.user.email
-  br
-  = comment.body
-  br
+- cache comment do
+  p
+    = comment.user.email
+    br
+    = comment.body
+    br

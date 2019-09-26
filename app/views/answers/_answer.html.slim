@@ -1,39 +1,40 @@
 - if answer.persisted?
-  div id="answer-#{answer.id}" class=("best-answer" if answer.best) data-id="#{answer.id}"
-    = answer.body
-    = render 'shared/vote', resource: answer
+  - cache answer do
+    div id="answer-#{answer.id}" class=("best-answer" if answer.best) data-id="#{answer.id}"
+      = answer.body
+      = render 'shared/vote', resource: answer
 
-    .links-answer
-      - if answer.links.exists?
-         = render 'shared/link', links: answer.links
+      .links-answer
+        - if answer.links.exists?
+          = render 'shared/link', links: answer.links
 
-    .attachments-answer      
-      - if answer.files.attached? 
-        = render 'shared/attachments', resource: answer      
-          
-    - if can? :update, answer
-      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-      | |
-    - if can? :destroy, answer  
-      = link_to 'Delete answer', answer, remote: true, method: :delete
-    - if can?(:best, answer)
-      = link_to 'Best', best_answer_path(answer), method: :patch, remote: true
+      .attachments-answer      
+        - if answer.files.attached? 
+          = render 'shared/attachments', resource: answer      
+            
+      - if can? :update, answer
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        | |
+      - if can? :destroy, answer  
+        = link_to 'Delete answer', answer, remote: true, method: :delete
+      - if can?(:best, answer)
+        = link_to 'Best', best_answer_path(answer), method: :patch, remote: true
 
-    .answer-edit  
-      = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-        p
-          = f.label :body, 'Your answer'
-          = f.text_area :body
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true 
+      .answer-edit  
+        = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+          p
+            = f.label :body, 'Your answer'
+            = f.text_area :body
+          p
+            = f.label :files
+            = f.file_field :files, multiple: true, direct_upload: true 
 
-        = fields_for :links do |link|
-          = render 'shared/link_form', f: f
-        p  
-          = f.submit 'Save'
+          = fields_for :links do |link|
+            = render 'shared/link_form', f: f
+          p  
+            = f.submit 'Save'
 
-    = render 'comments/comments', resource: answer     
+      = render 'comments/comments', resource: answer     
       
 
 
