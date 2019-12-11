@@ -9,7 +9,7 @@ RSpec.describe Answer, type: :model do
     let(:model)   { create(described_class.to_s.underscore.to_sym, user: user) }
   end
 
-  it { should belong_to(:question) }
+  it { should belong_to(:question).touch(true)  }
   it { should belong_to(:user) }
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
